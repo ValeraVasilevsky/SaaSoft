@@ -1,0 +1,16 @@
+:root {
+  --palette-black: #2f2f2f;
+  --palette-white: #f8f8f8;
+  --palette-gray: #aecbd2;
+  --palette-error: #ff8484;
+
+  --spacing-s: 8px;
+  --spacing-m: 12px;
+  --spacing-l: 16px;
+
+  --rounded-s: 8px;
+
+  --icon-size: 24px;
+
+  --transition: 0.3s;
+}
