@@ -1,5 +1,7 @@
 <template>
-  <div>main zxczxczxc</div>
+  <div :class="styles.container">main zxczxczxc</div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import styles from "./styles.module.css";
+</script>
