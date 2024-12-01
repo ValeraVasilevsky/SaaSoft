@@ -1,0 +1,23 @@
+.container {
+  background-color: var(--palette-gray);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: var(--spacing-m);
+  padding: var(--spacing-m);
+  border-radius: var(--rounded-s);
+
+  &.error {
+    background-color: var(--palette-error);
+  }
+
+  & .icon {
+    width: var(--icon-size);
+    height: var(--icon-size);
+    color: var(--palette-black);
+  }
+
+  & .text {
+    color: var(--palette-black);
+  }
+}
