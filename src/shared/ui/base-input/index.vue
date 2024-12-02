@@ -3,10 +3,11 @@
     <input
       v-model="inputValue"
       :type="inputType"
-      @input="onInput"
       :placeholder="props.placeholder"
       :class="styles.input"
-      :value="inputValue"
+      :name="props.rules ?? ''"
+      :rules="rules"
+      @blur="onValidate"
     />
 
     <BaseButton
@@ -20,16 +21,23 @@
       </template>
     </BaseButton>
 
-    <Typography v-if="props.error" variant="text-xs-1" :class="styles.error">
-      {{ props.errorMessage }}
+    <Typography
+      v-if="error"
+      variant="text-s-1"
+      :name="props.rules ?? ''"
+      :class="styles.error"
+    >
+      {{ errorMessage }}
     </Typography>
   </article>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { Typography } from "../typography";
+import { string } from "yup";
+import { validate } from "vee-validate";
 import { BaseButton } from "../base-button";
+import { Typography } from "../typography";
 
 import EyeIcon from "./icons/eye.svg";
 import EyeSlashIcon from "./icons/eye-slash.svg";
@@ -46,6 +54,7 @@ interface BaseInputProps {
   error?: boolean;
   errorMessage?: string;
   type?: BaseInputType;
+  rules?: "login" | "password";
 }
 
 const slots = defineSlots<{
@@ -53,13 +62,13 @@ const slots = defineSlots<{
 }>();
 const emits = defineEmits<BaseInputEmits>();
 const props = withDefaults(defineProps<BaseInputProps>(), {
-  error: false,
-  errorMessage: "",
   type: "text",
 });
 
 const inputValue = ref<string | null>(props.modelValue);
 const inputType = ref<BaseInputType>(props.type);
+const errorMessage = ref<string>("");
+const error = ref<boolean>(false);
 
 const inputClasses = computed((): string[] => {
   const classes: string[] = [styles.container];
@@ -73,12 +82,40 @@ const passwordIcon = computed((): string => {
   return EyeSlashIcon;
 });
 
+const validations = {
+  login: string()
+    .default("")
+    .min(1, "Минимальное количество символов - 1")
+    .max(100, "Максимальное количество символов - 100")
+    .required("Введите данные"),
+  password: string()
+    .default("")
+    .nullable()
+    .max(100, "Максимальное количество символов - 100")
+    .required("Введите данные"),
+};
+
+const rules = computed(() => {
+  if (props.rules) {
+    return validations[props.rules];
+  }
+  return {};
+});
+
 const hideText = (): void => {
   if (inputType.value === "text") inputType.value = "password";
   else inputType.value = "text";
 };
-
 const onInput = (): void => {
   emits("update:model-value", inputValue.value);
+};
+const onValidate = async (): Promise<void> => {
+  const { errors, valid } = await validate(inputValue.value, rules.value);
+  error.value = !!errors.length;
+  errorMessage.value = errors.length ? errors[0] : "";
+
+  if (valid) {
+    onInput();
+  }
 };
 </script>

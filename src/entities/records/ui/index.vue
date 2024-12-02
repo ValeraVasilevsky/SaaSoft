@@ -15,6 +15,7 @@
         v-model="records[key].tags"
         placeholder="XXX"
         :class="styles.tags"
+        rules="tags"
       />
 
       <div :class="styles.type">
@@ -35,6 +36,7 @@
         v-model="records[key].login"
         placeholder="Введите логин"
         :class="[styles.login, { [styles.full]: records[key].type === 'ldap' }]"
+        rules="login"
       />
 
       <BaseInput
@@ -43,6 +45,7 @@
         placeholder="Введите пароль"
         type="password"
         :class="styles.password"
+        rules="password"
       />
 
       <BaseButton

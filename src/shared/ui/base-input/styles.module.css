@@ -10,10 +10,8 @@
   outline: none;
   width: calc(100% - var(--spacing-s));
   height: 48px;
-
-  &:has(.error) {
-    margin-bottom: var(--spacing-s);
-  }
+  max-height: 48px;
+  margin-bottom: var(--spacing-s);
 
   &.error {
     border-color: var(--palette-error);
@@ -41,5 +39,10 @@
 
   & .error {
     color: var(--palette-error);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    text-align: left;
+    z-index: 10;
   }
 }

@@ -5,6 +5,7 @@
   align-items: flex-start;
   flex-direction: column;
   gap: var(--spacing-m);
+  overflow-y: scroll;
 
   & .header {
     width: 100%;
