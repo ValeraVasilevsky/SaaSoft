@@ -1,63 +1,79 @@
-.trigger {
-  --trigger-bg: var(--palette-white);
-  --trigger-color: var(--palette-black);
-  --trigger-color-hover: var(--palette-black);
-  --trigger-color-filled: var(--palette-black);
-  --trigger-border-color: var(--palette-gray);
-  --trigger-border-color-hover: var(--palette-black);
-  --trigger-padding: var(--spacing-s) var(--spacing-m);
-  --trigger-radius: var(--rounded-s);
-  --trigger-gap: var(--spacing-l);
-
-  outline: none;
+.root {
   width: 100%;
-  height: 48px;
-  min-height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--trigger-padding);
-  gap: var(--trigger-gap);
-  border-radius: var(--trigger-radius);
-  border: 1px solid var(--trigger-border-color);
-  background-color: var(--trigger-bg);
-  transition: border 150ms ease-in-out;
-  margin-bottom: var(--spacing-s);
+  position: relative;
 
-  & svg {
-    width: 16px;
-    height: 16px;
-    transform: rotate(0deg);
-    color: var(--trigger-color);
-    transition: transform 150ms, color 150ms;
-  }
+  & .trigger {
+    --trigger-bg: var(--palette-white);
+    --trigger-color: var(--palette-black);
+    --trigger-color-hover: var(--palette-black);
+    --trigger-color-filled: var(--palette-black);
+    --trigger-border-color: var(--palette-gray);
+    --trigger-border-color-hover: var(--palette-black);
+    --trigger-padding: var(--spacing-s) var(--spacing-m);
+    --trigger-radius: var(--rounded-s);
+    --trigger-gap: var(--spacing-l);
 
-  & .label {
-    flex-grow: 1;
-    text-align: left;
-    color: var(--trigger-color);
-    transition: color 150ms ease-in-out;
-
-    &.filled {
-      color: var(--trigger-color-filled);
-    }
-  }
-
-  &[data-state="open"] {
-    border: 1px solid var(--trigger-border-color-hover);
+    outline: none;
+    width: 100%;
+    height: 48px;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--trigger-padding);
+    gap: var(--trigger-gap);
+    border-radius: var(--trigger-radius);
+    border: 1px solid var(--trigger-border-color);
+    background-color: var(--trigger-bg);
+    transition: border 150ms ease-in-out;
+    margin-bottom: var(--spacing-s);
+    position: relative;
 
     & svg {
-      transform: rotate(180deg);
+      width: 16px;
+      height: 16px;
+      transform: rotate(0deg);
+      color: var(--trigger-color);
+      transition: transform 150ms, color 150ms;
     }
-  }
 
-  &:hover {
     & .label {
-      color: var(--trigger-color-hover);
+      flex-grow: 1;
+      text-align: left;
+      color: var(--trigger-color);
+      transition: color 150ms ease-in-out;
+
+      &.filled {
+        color: var(--trigger-color-filled);
+      }
     }
 
-    & svg {
-      color: var(--trigger-color-hover);
+    &[data-state="open"] {
+      border: 1px solid var(--trigger-border-color-hover);
+
+      & svg {
+        transform: rotate(180deg);
+      }
     }
+
+    &:hover {
+      & .label {
+        color: var(--trigger-color-hover);
+      }
+
+      & svg {
+        color: var(--trigger-color-hover);
+      }
+    }
+  }
+
+  & .error {
+    color: var(--palette-error);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    white-space: nowrap;
+    text-align: left;
   }
 }

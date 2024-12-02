@@ -63,7 +63,7 @@
 
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import {
   TABLE_COLUMNS,
   useRecordsStore,
@@ -85,6 +85,8 @@ const { records } = storeToRefs(useRecordsStore());
 const { updatePassword, removeRecord } = useRecordsStore();
 
 const displayedRecords = computed((): Records => records.value);
+
+const x = ref<string>("");
 
 const onUpdateType = (key: string): void => {
   updatePassword(key);
