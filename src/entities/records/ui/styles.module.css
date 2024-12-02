@@ -1,0 +1,49 @@
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: var(--spacing-m);
+
+  & .header {
+    width: 100%;
+    display: grid;
+    justify-content: flex-start;
+    align-items: center;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--spacing-m);
+
+    & .th {
+      grid-column: span 2;
+      color: var(--palette-gray);
+      text-align: left;
+    }
+  }
+
+  & .row {
+    width: 100%;
+    display: grid;
+    justify-content: flex-start;
+    align-items: center;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--spacing-m);
+
+    & .tags,
+    & .login,
+    & .password,
+    & .type {
+      grid-column: span 2;
+    }
+
+    & .btn {
+      grid-column: span 1;
+    }
+
+    & .login {
+      &.full {
+        grid-column: span 4;
+      }
+    }
+  }
+}
