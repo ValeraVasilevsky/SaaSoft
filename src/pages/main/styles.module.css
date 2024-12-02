@@ -36,7 +36,7 @@
       gap: var(--spacing-m);
 
       & .th {
-        grid-column: span 3;
+        grid-column: span 2;
         color: var(--palette-gray);
         text-align: left;
       }
@@ -54,12 +54,16 @@
       & .login,
       & .password,
       & .type {
-        grid-column: span 3;
+        grid-column: span 2;
+      }
+
+      & .btn {
+        grid-column: span 1;
       }
 
       & .login {
         &.full {
-          grid-column: span 6;
+          grid-column: span 4;
         }
       }
     }

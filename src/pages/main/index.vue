@@ -23,17 +23,22 @@
         </p>
       </div>
 
-      <div v-for="(record, i) of displayedRecords" :key="i" :class="styles.row">
+      {{ displayedRecords }}
+      <div
+        v-for="(record, key) in displayedRecords"
+        :key="record.id"
+        :class="styles.row"
+      >
         <Combobox
-          v-model="records[i].tags"
+          v-model="records[key].tags"
           placeholder="XXX"
           :class="styles.tags"
         />
 
         <div :class="styles.type">
           <BaseSelect
-            v-model="records[i].type"
-            @update:model-value="onUpdateType(record)"
+            v-model="records[key].type"
+            @update:model-value="onUpdateType(key as string)"
           >
             <DropdownSelectItem
               v-for="type of RecordTypes"
@@ -45,18 +50,31 @@
         </div>
 
         <BaseInput
-          v-model="records[i].login"
+          v-model="records[key].login"
           placeholder="Введите логин"
-          :class="[styles.login, { [styles.full]: records[i].type === 'ldap' }]"
+          :class="[
+            styles.login,
+            { [styles.full]: records[key].type === 'ldap' },
+          ]"
         />
 
         <BaseInput
-          v-if="records[i].type === 'local'"
-          v-model="records[i].password"
+          v-if="records[key].type === 'local'"
+          v-model="records[key].password"
           placeholder="Введите пароль"
           type="password"
           :class="styles.password"
         />
+
+        <BaseButton
+          :border="false"
+          :class="styles.btn"
+          @click="onRemove(key as string)"
+        >
+          <template #left-icon>
+            <RemoveIcon />
+          </template>
+        </BaseButton>
       </div>
     </article>
   </div>
@@ -65,30 +83,37 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { computed } from "vue";
-import { TABLE_COLUMNS, useRecordsStore, RecordTypes } from "entities/records";
+import {
+  TABLE_COLUMNS,
+  useRecordsStore,
+  RecordTypes,
+  Records,
+} from "entities/records";
 import {
   BaseButton,
   Typography,
   InfoPlaceholder,
   Combobox,
-  TableItem,
   BaseInput,
   BaseSelect,
   DropdownSelectItem,
 } from "shared/ui";
 import PlusIcon from "shared/icons/add.svg";
+import RemoveIcon from "shared/icons/trash.svg";
+import { useForm } from "shared/utils/useForm";
 
 import styles from "./styles.module.css";
 
 const { records } = storeToRefs(useRecordsStore());
-const { addRecord, updatePassword } = useRecordsStore();
-// const { values, validateField } = useForm(RecordSchema);
+const { addRecord, updatePassword, removeRecord } = useRecordsStore();
+const { values, validateField } = useForm(RecordSchema);
 
-const displayedRecords = computed((): TableItem[] =>
-  records.value.map((record) => ({ ...record } as TableItem))
-);
+const displayedRecords = computed((): Records => records.value);
 
-const onUpdateType = (record: TableItem): void => {
-  updatePassword((record as { id: string }).id);
+const onUpdateType = (key: string): void => {
+  updatePassword(key);
+};
+const onRemove = (key: string): void => {
+  removeRecord(key);
 };
 </script>

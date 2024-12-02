@@ -1,14 +1,12 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { RecordsState, BaseRecord } from "./types";
-// import { TableItem } from "shared/ui";
+import { RecordsState, BaseRecord, Records } from "./types";
 
 export const useRecordsStore = defineStore(
   "records",
   (): RecordsState => {
-    const records = ref<BaseRecord[]>([]);
-    const defaultRecord: BaseRecord = {
-      id: String(Date.now()),
+    const records = ref<Records>({});
+    const defaultRecord: Omit<BaseRecord, "id"> = {
       tags: [{ text: "" }],
       type: "local",
       login: "",
@@ -16,21 +14,23 @@ export const useRecordsStore = defineStore(
     };
 
     const addRecord = (): void => {
-      records.value.push(defaultRecord);
+      const key = String(Date.now());
+      records.value[key] = { ...defaultRecord, id: Date.now() };
     };
 
-    const updatePassword = (id: string): void => {
-      const candidate = records.value.find((record) => record.id === id);
-      const findedIndex = records.value.findIndex((record) => record.id === id);
-      if (!candidate || findedIndex === -1) return;
+    const updatePassword = (key: string): void => {
+      records.value[key] = { ...records.value[key], password: null };
+    };
 
-      records.value.splice(findedIndex, 1, { ...candidate, password: null });
+    const removeRecord = (key: string): void => {
+      delete records.value[key];
     };
 
     return {
       records,
       addRecord,
       updatePassword,
+      removeRecord,
     };
   },
   {

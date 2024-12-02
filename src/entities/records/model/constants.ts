@@ -6,6 +6,7 @@ export const TABLE_COLUMNS: TableColumn[] = [
   { title: "Тип записи", key: "type" },
   { title: "Логин", key: "login" },
   { title: "Пароль", key: "password" },
+  { title: "", key: "action" },
 ];
 
 export const RecordTypes: { key: BaseRecordType; title: string }[] = [
